@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.5'
+    id('java-library')
+}
+
+group = 'me.absolute'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    all*.exclude module : 'spring-boot-starter-logging'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '3.3.0'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.6.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
